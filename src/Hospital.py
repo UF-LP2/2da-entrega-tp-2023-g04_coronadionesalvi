@@ -12,6 +12,7 @@ class cHospital:
 	def ingreso_paciente(p: cPaciente) -> None:
 		
 		enfermero = cEnfermero(buscar_enfermero_libre())
+		
 		cPaciente.append(p)
 		#pacientes = []
 		
@@ -55,7 +56,7 @@ class cHospital:
 		enfermeros = []
 		pacientes = []
 
-		if(enfermeros.atendiendo_paciente == True):
+		if(enfermeros.atendiendo_paciente == True):				#preguntar lo de timeeee
 			if(hora_ingreso_pac - minutos_actual == 180 ): #hora_ingreso_pac es la hora en la que el pac entra a la sala del enfermero 
 				enfermeros.atendiendo_paciente = False 	#hora_ingreso_pac y hora_actual quiero agarrar solo los minutos y pasarlos a segundos
 				pacientes.remove(p)						
