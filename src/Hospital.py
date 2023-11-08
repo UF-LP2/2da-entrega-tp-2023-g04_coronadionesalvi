@@ -1,5 +1,6 @@
 from Paciente import cPaciente
 from Enfermero import cEnfermero
+from datetime import datetime
 
 class cHospital:
 	def __init__(self, nombre, direccion, cPaciente, medicos, enfermeros):
@@ -9,58 +10,63 @@ class cHospital:
 		self.medicos = medicos
 		self.enfermeros = enfermeros
 
-	def ingreso_paciente(p: cPaciente) -> None:
+	def ingreso_paciente(p: cPaciente, pacientes) -> None:
 		
-		enfermero = cEnfermero(buscar_enfermero_libre())
+		enfermero = cEnfermero(cHospital.buscar_enfermero_libre())
+		pacientes.append(p)
+
+		mitad = len(pacientes)//2
+		derecha = pacientes[mitad:]
+		izquierda = pacientes[:mitad]
 		
-		cPaciente.append(p)
-		#pacientes = []
-		
-		if enfermero != nullptr:
+		if enfermero != None:
+			for i in range (derecha): 
+				if(p.sintoma == "politraumatismo"):
+					p.alerta = "roja"
+					p.triage = enfermero.DNI #atributo del paciente que guarda quien lo atendió
+					enfermero.atendiendo_paciente == True
+					p.hora_ingreso_a_sala_m = datetime.minute()
 
-			if(p.sintoma == "politraumatismo"):
-				p.alerta = "roja"
-				p.triage = enfermero.DNI #atributo del paciente que guarda quien lo atendió
-				enfermero.atendiendo_paciente == True
+				elif(p.sintoma == "coma" or p.sintoma == "convulsiones" or p.sintoma == "hemorragia" or p.sintoma == "isquemia"):
+					p.alerta = "naranja"
+					p.triage = enfermero.DNI
+					enfermero.atendiendo_paciente == True
+					p.hora_ingreso_a_sala_m = datetime.minute()
 
-			elif(p.sintoma == "coma" or p.sintoma == "convulsiones" or p.sintoma == "hemorragia" or p.sintoma == "isquemia"):
-				p.alerta = "naranja"
-				p.triage = enfermero.DNI
-				enfermero.atendiendo_paciente == True
+				elif (p.sintoma == "cefalea" or p.sintoma == "paresia" or p.sintoma == "hipertension" or p.sintoma == "vertigo" or p.sintoma == "síncope" or p.sintoma == "urgencia_psiquiatrica"):
+					p.alerta = "amarillo"
+					p.triage = enfermero.DNI
+					enfermero.atendiendo_paciente == True
+					p.hora_ingreso_a_sala_m = datetime.minute()
 
-			elif (p.sintoma == "cefalea" or p.sintoma == "paresia" or p.sintoma == "hipertension" or p.sintoma == "vertigo" or p.sintoma == "síncope" or p.sintoma == "urgencia_psiquiatrica"):
-				p.alerta = "amarillo"
-				p.triage = enfermero.DNI
-				enfermero.atendiendo_paciente == True
+				elif (p.sintoma == "otalgia" or p.sintoma == "odontalgia" or p.sintoma == "inespecifico" or  p.sintoma == "traumatismo" or p.sintoma == "esguince" ):
+					p.alerta = "verde"
+					p.triage = enfermero.DNI
+					enfermero.atendiendo_paciente == True
+					p.hora_ingreso_a_sala_m = datetime.minute()
 
-			elif (p.sintoma == "otalgia" or p.sintoma == "odontalgia" or p.sintoma == "inespecifico" or  p.sintoma == "traumatismo" or p.sintoma == "esguince" ):
-				p.alerta = "verde"
-				p.triage = enfermero.DNI
-				enfermero.atendiendo_paciente == True
+				elif (p.sintoma == "sin_urgencia"):
+					p.alerta = "azul"
+					p.triage = enfermero.DNI   
+					enfermero.atendiendo_paciente == True
+					p.hora_ingreso_a_sala_m = datetime.minute()
+				
+				else:
+					cHospital.medico_recibe_paciente(p)
 
-			elif (p.sintoma == "sin_urgencia"):
-				p.alerta = "azul"
-				p.triage = enfermero.DNI   
-				enfermero.atendiendo_paciente == True
+		return cHospital.ingreso_pacientes(p, izquierda) #QUE RETORNA LA FUNCION
 
-			else:
-				medico_recibe_paciente(p)
 
-	def liberar_sala(p: cPaciente) ->  None:
-		hora_actual = datetime.datetime.now().time()
-		minutos = hora_actual.minute
-		if(minutos == 0):
-
-		#else:
-			minutos_actual = minutos * 60
+	def liberar_enfermero(p: cPaciente) ->  None: #seria liberar la sala  
+		minutos = datetime.minute()
+		segundos = datetime.second()
 		enfermeros = []
-		pacientes = []
+		if(minutos*60 - p.hora_ingreso_a_sala_m*60 == 180):
+			for i in range(len(enfermeros)):
+				if(p.triage == enfermeros[i].DNI):
+					cHospital(cEnfermero.set_estado())
 
-		if(enfermeros.atendiendo_paciente == True):				#preguntar lo de timeeee
-			if(hora_ingreso_pac - minutos_actual == 180 ): #hora_ingreso_pac es la hora en la que el pac entra a la sala del enfermero 
-				enfermeros.atendiendo_paciente = False 	#hora_ingreso_pac y hora_actual quiero agarrar solo los minutos y pasarlos a segundos
-				pacientes.remove(p)						
-
+	
 	def buscar_enfermero_libre() -> cEnfermero:
 		enfermeros = []
 		for i in range (len(enfermeros)):
@@ -71,26 +77,26 @@ class cHospital:
 
 	def controlar_tiempo_de_espera() -> None:
 		pacientes = []
-		hora.actual = time.ctime()
+		horaActual = datetime.now()
 	
 		for i in range(len(pacientes)):
 			if(pacientes[i].alerta == "azul"):
-				if(hora.actual - pacientes[i].hora_de_llegada >= 120):
+				if(horaActual - pacientes[i].hora_de_llegada >= 120):
 					pacientes[i].set_estado("verde")
-					pacientes[i].set_hora_de_llegada(hora.actual)			
+					pacientes[i].set_hora_de_llegada(horaActual)			
 				
 			if(cPaciente[i].alerta == "verde"):
-				if(hora.actual - cPaciente[i].hora_de_llegada >= 60):
+				if(horaActual - cPaciente[i].hora_de_llegada >= 60):
 					pacientes[i].set_estado("amarillo") 
-					pacientes[i].set_hora_de_llega(hora.actual)
+					pacientes[i].set_hora_de_llega(horaActual)
 
 			if(pacientes[i].alerta == "amarillo"):
-				if(hora.actual - pacientes[i].hora_de_llegada >= 50):
+				if(horaActual - pacientes[i].hora_de_llegada >= 50):
 					pacientes[i].set_estado("naranja")
-					pacientes[i].set_hora_de_llega(hora.actual)
+					pacientes[i].set_hora_de_llega(horaActual)
 				
 			if(pacientes[i].alerta == "naranja"):
-				if(hora.actual - pacientes[i].hora_de_llegada >= 10):
+				if(horaActual - pacientes[i].hora_de_llegada >= 10):
 					pacientes[i].set_estado("rojo")
-					pacientes[i].set_hora_de_llega(hora.actual)
+					pacientes[i].set_hora_de_llega(horaActual)
 				

@@ -1,3 +1,5 @@
+from datetime import datetime
+
 class cEnfermero:
 	def __init__(self, DNI, turno, estado, atendiendo_paciente):
 		self.DNI = DNI
@@ -8,12 +10,10 @@ class cEnfermero:
 
 def set_estado()-> None:
 	
-	hora_actual = time.ctime()
-	print(hora_actual)
-
-
+	hora_actual = datetime.now()
+	
 	if(cEnfermero.turno == hora_actual and cEnfermero.atendiendo_paciente == False):
 		cEnfermero.estado == True
-	#elif:							Ver pq tira error!!!!!!!!!!!!!!!!
+	else:
 		cEnfermero.estado == False
 		

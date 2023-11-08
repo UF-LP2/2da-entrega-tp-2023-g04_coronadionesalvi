@@ -1,9 +1,10 @@
-from Paciente import cPaciente              #chequear que se pueda importar
+from Paciente import cPaciente              
+from datetime import datetime
 
-class cMedico(self, matricula):
-    self.matricula = matricula
+class cMedico:
+	def __init__(self, matricula):
+		self.matricula = matricula
 
-    def medico_recibe_paciente(p: cPaciente) -> void:
-        pacientes.remove(p)	            #Se le manda la lista pacientes o se le pone cPaciente.remove(p)
-    
-    
+	def medico_recibe_paciente(p: cPaciente) -> None:
+		pacientes = []
+		pacientes.remove(p)	            
