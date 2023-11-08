@@ -8,12 +8,14 @@ class cEnfermero:
 		self.estado = estado
 		
 
-def set_estado()-> None:
+	def set_estado(self)-> None:
 	
-	hora_actual = datetime.now()
-	
-	if(cEnfermero.turno == hora_actual and cEnfermero.atendiendo_paciente == False):
-		cEnfermero.estado == True
-	else:
-		cEnfermero.estado == False
+		hora_actual = datetime.now()
+
+		if(self.turno == hora_actual and self.atendiendo_paciente == False):
+			self.estado == True
+		else:
+			self.estado == False
+
+		print(self.estado)
 		

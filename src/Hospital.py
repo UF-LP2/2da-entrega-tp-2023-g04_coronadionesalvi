@@ -1,26 +1,23 @@
 from Paciente import cPaciente
 from Enfermero import cEnfermero
+from Medico import cMedico
 from datetime import datetime
 
 class cHospital:
-	def __init__(self, nombre, direccion, cPaciente, medicos, enfermeros):
+	def __init__(self, nombre, direccion, pacientes, medicos, enfermeros):
 		self.nombre = nombre
 		self.direccion = direccion
-		self.cPaciente = cPaciente
+		self.pacientes = pacientes
 		self.medicos = medicos
 		self.enfermeros = enfermeros
 
-	def ingreso_paciente(p: cPaciente, pacientes) -> None:
+	def ingreso_paciente(self, p: cPaciente) -> None:
 		
-		enfermero = cEnfermero(cHospital.buscar_enfermero_libre())
-		pacientes.append(p)
-
-		mitad = len(pacientes)//2
-		derecha = pacientes[mitad:]
-		izquierda = pacientes[:mitad]
-		
+		enfermero = cEnfermero(self.buscar_enfermero_libre())
+		self.pacientes.append(p)
+	
 		if enfermero != None:
-			for i in range (derecha): 
+			for i in range (len(self.pacientes)): 
 				if(p.sintoma == "politraumatismo"):
 					p.alerta = "roja"
 					p.triage = enfermero.DNI #atributo del paciente que guarda quien lo atendió
@@ -52,10 +49,7 @@ class cHospital:
 					p.hora_ingreso_a_sala_m = datetime.minute()
 				
 				else:
-					cHospital.medico_recibe_paciente(p)
-
-		return cHospital.ingreso_pacientes(p, izquierda) #QUE RETORNA LA FUNCION
-
+					cMedico.medico_recibe_paciente(p)
 
 	def liberar_enfermero(p: cPaciente) ->  None: #seria liberar la sala  
 		minutos = datetime.minute()
@@ -67,11 +61,10 @@ class cHospital:
 					cHospital(cEnfermero.set_estado())
 
 	
-	def buscar_enfermero_libre() -> cEnfermero:
-		enfermeros = []
-		for i in range (len(enfermeros)):
-			if (enfermeros[i].estado == True):
-				return enfermeros[i]
+	def buscar_enfermero_libre(self) -> cEnfermero:
+		for i in range (len(self.enfermeros)):
+			if (self.enfermeros[i].estado == True):
+				return self.enfermeros[i]
 			else:
 				return None
 
@@ -100,3 +93,51 @@ class cHospital:
 					pacientes[i].set_estado("rojo")
 					pacientes[i].set_hora_de_llega(horaActual)
 				
+
+
+
+
+
+
+
+				
+
+
+
+
+####################################################################3
+
+#A partir de aca es lo de D&C
+
+#
+				if mitad <= 1:
+#			return self.pacientes
+		
+		mitad = len(self.pacientes)//2
+		derecha = self.pacientes[mitad:]
+		izquierda = self.pacientes[:mitad]
+	
+		derecha = self.pacientes.mergeSort(derecha)
+		izquierda = self.pacientes.mergeSort(izquierda)
+
+		# Combina las dos mitades ordenadas en un solo array ordenado.
+		return self.pacientes.merge(derecha, izquierda)
+	
+	
+	def merge(izquierda, derecha):
+		lista_resultante = []
+		posicion_izq, posicion_der = 0, 0
+
+		while posicion_izq < len(izquierda) and posicion_der < len(derecha):
+			if izquierda[posicion_izq].getValor() > derecha[posicion_der].getValor() :
+				lista_resultante.append(izquierda[posicion_izq])
+				posicion_izq += 1
+			else:
+				lista_resultante.append(derecha[posicion_der])
+				posicion_der += 1
+
+		lista_resultante.extend(izquierda[posicion_izq:]) 			#extend es una funcion de libreria de python 
+		lista_resultante.extend(derecha[posicion_der:])
+
+		return lista_resultante
+#
