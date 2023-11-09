@@ -101,8 +101,6 @@ class cHospital:
 
 		return lista_resultante
 
-
-
 	def buscar_enfermero_libre(self) -> cEnfermero:
 		for i in range (len(self.enfermeros)):
 			if (self.enfermeros[i].estado == True):
@@ -110,30 +108,30 @@ class cHospital:
 			else:
 				return None
 
-	def controlar_tiempo_de_espera(self) -> None:
-		#pacientes = []
+	def controlar_tiempo_de_espera(self, izquierda, derecha) -> None:
 		horaActual = datetime.now()
+		lista = self.mergesort(self,izquierda,derecha)
 	
-		for i in range(len(self.pacientes)):
-			if(self.pacientes[i].alerta == "azul"):
-				if(horaActual - self.pacientes[i].hora_de_llegada >= 120):
-					self.pacientes[i].set_estado("verde")
-					self.pacientes[i].set_hora_de_llegada(horaActual)			
+		for i in range (len(self.lista)):
+			if(self.lista[i].alerta == "azul"):
+				if(horaActual - self.lista[i].hora_de_llegada >= 120):
+					self.lista[i].set_estado("verde")
+					self.lista[i].set_hora_de_llegada(horaActual)			
 				
-			if(cPaciente[i].alerta == "verde"):
-				if(horaActual - cPaciente[i].hora_de_llegada >= 60):
-					self.pacientes[i].set_estado("amarillo") 
-					self.pacientes[i].set_hora_de_llega(horaActual)
+			if(lista[i].alerta == "verde"):
+				if(horaActual - lista[i].hora_de_llegada >= 60):
+					self.lista[i].set_estado("amarillo") 
+					self.lista[i].set_hora_de_llega(horaActual)
 
-			if(self.pacientes[i].alerta == "amarillo"):
-				if(horaActual - self.pacientes[i].hora_de_llegada >= 50):
-					self.pacientes[i].set_estado("naranja")
-					self.pacientes[i].set_hora_de_llega(horaActual)
+			if(self.lista[i].alerta == "amarillo"):
+				if(horaActual - self.lista[i].hora_de_llegada >= 50):
+					self.lista[i].set_estado("naranja")
+					self.lista[i].set_hora_de_llega(horaActual)
 				
-			if(self.pacientes[i].alerta == "naranja"):
-				if(horaActual - self.pacientes[i].hora_de_llegada >= 10):
-					self.pacientes[i].set_estado("rojo")
-					self.pacientes[i].set_hora_de_llega(horaActual)
+			if(self.lista[i].alerta == "naranja"):
+				if(horaActual - self.lista[i].hora_de_llegada >= 10):
+					self.lista[i].set_estado("rojo")
+					self.lista[i].set_hora_de_llega(horaActual)
 
 	def suma_numeros(a,b) :
 		suma = a + b
