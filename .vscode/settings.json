@@ -4,9 +4,4 @@
     ],
     "python.testing.unittestEnabled": false,
     "python.testing.pytestEnabled": true,
-    "cSpell.words": [
-        "Enfermero",
-        "nombre",
-        "suma"
-    ]
 }
