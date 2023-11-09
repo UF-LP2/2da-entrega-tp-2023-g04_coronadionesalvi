@@ -1,4 +1,4 @@
-from src.Enfermero import cEnfermero
+from library.Enfermero import cEnfermero
 
 def main() -> None:
   enfermero = cEnfermero(43567555,17,False,False)
