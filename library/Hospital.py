@@ -134,13 +134,8 @@ class cHospital:
 				if(horaActual - self.pacientes[i].hora_de_llegada >= 10):
 					self.pacientes[i].set_estado("rojo")
 					self.pacientes[i].set_hora_de_llega(horaActual)
-				
-################################################################33
-#Ignorar, funcion para probar test
 
-def suma_numeros(a,b) :
+	def suma_numeros(a,b) :
 		suma = a + b
 		return suma
-
-
-#
+	
