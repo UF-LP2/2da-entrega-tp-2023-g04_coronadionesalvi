@@ -1,5 +1,5 @@
 import pytest
-from library.Hospital import cHospital
+from Hospital import cHospital
 from datetime import datetime, timedelta #
 
 def test_test1():
