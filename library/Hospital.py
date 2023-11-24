@@ -65,28 +65,28 @@ class cHospital:
 
 	
 	def DandC(pacientes): 
+		mitad = len(pacientes)//2
 		if mitad <= 1: 					#(DandC) metodo divide and conquer. ordenar una lista de pacientes. recibe la lista de pacientes como parámetro.
 			return pacientes
 		
-		mitad = len(pacientes)//2
 		derecha = pacientes[mitad:]
 		izquierda = pacientes[:mitad]				#ORDENA 
 	
-		derecha = pacientes.mergeSort(derecha)
-		izquierda = pacientes.mergeSort(izquierda)
+		derecha = pacientes.DandC(derecha)
+		izquierda = pacientes.DandC(izquierda)
 
 		# Combina las dos mitades ordenadas en un solo array ordenado.
-		return pacientes.merge(derecha, izquierda)
+		return pacientes.merge(izquierda, derecha)
 	
-	def mergesort(self,izquierda, derecha):#Recibe las dos mitades ordenadas (izquierda y derecha) como parámetros. 
+	def merge(self,izquierda, derecha):#Recibe las dos mitades ordenadas (izquierda y derecha) como parámetros. 
 		lista_resultante = []		#La función crea una lista vacía llamada "lista_resultante" para almacenar los elementos ordenados.
 		
 		posicion_izq = 0		
 		posicion_der = 0		#indican la posición actual en cada mitad.
 		
 
-		while posicion_izq < len(izquierda) and posicion_der < len(derecha): 
-			if (izquierda[posicion_izq].getnumero() > derecha[posicion_der].getnumero()): 
+		while posicion_izq < len(izquierda) and posicion_der < len(derecha) and posicion_izq < posicion_der: 
+			if (izquierda[posicion_izq].getnumero() > derecha[posicion_der].getnumero()): #ordena por nro de color 0 rojo 4 azul
 				lista_resultante.append(izquierda[posicion_izq])
 				posicion_izq += 1
 			else:
@@ -107,7 +107,7 @@ class cHospital:
 
 	def controlar_tiempo_de_espera(self, izquierda, derecha) -> None:
 		horaActual = datetime.now().time()
-		lista = self.mergesort(izquierda,derecha)
+		lista = self.merge(izquierda,derecha)
 
 		horaActual = datetime.combine(datetime.today(), horaActual)
 
@@ -123,23 +123,23 @@ class cHospital:
 			totalMin = aux.total_seconds() / 60
 			if(lista[i].alerta == "azul"):
 				if(totalMin >= 120):
-					lista[i].set_estado("verde")
+					lista[i].set_alerta("verde")
 					lista[i].set_hora_de_llegada(horaActual)			
 				
 			if(lista[i].alerta == "verde"):
 				if(totalMin >= 60):
-					lista[i].set_estado("amarillo") 
-					lista[i].set_hora_de_llega(horaActual)
+					lista[i].set_alerta("amarillo") 
+					lista[i].set_hora_de_llegada(horaActual)
 
 			if(lista[i].alerta == "amarillo"):
 				if(totalMin >= 50):
-					lista[i].set_estado("naranja")
-					lista[i].set_hora_de_llega(horaActual)
+					lista[i].set_alerta("naranja")
+					lista[i].set_hora_de_llegada(horaActual)
 				
 			if(lista[i].alerta == "naranja"):
 				if(totalMin >= 10):
-					lista[i].set_estado("rojo")
-					lista[i].set_hora_de_llega(horaActual)
+					lista[i].set_alerta("rojo")
+					lista[i].set_hora_de_llegada(horaActual)
 
 	def suma_numeros(a,b) : #metodo de prueba
 		suma = a + b

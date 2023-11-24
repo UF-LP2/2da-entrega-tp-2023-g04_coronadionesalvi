@@ -17,5 +17,8 @@ class cPaciente:
     def set_estado(self, estado):
         self.estado = estado
 
+    def set_alerta(self, alerta):
+        self.alerta = alerta
+
     def set_hora_de_llegada(self, horaActual):
         self.hora_de_llegada = horaActual
