@@ -6,18 +6,13 @@ from Paciente import cPaciente
 from Medico import cMedico
 from Enfermero import cEnfermero 
 
-"""
-NOS SALE:
-TypeError: combine() argument 2 must be datetime.time, not datetime.datetime
-No supimos solucionarlo. Problema esta relacionado con la libreria de tiempo.
-
 def test_alerta_paciente():
-	paciente1 = cPaciente(44565234,"azul",240,"en espera",time(13,50),"sin urgencia",time(15,30),4)
-	paciente2 = cPaciente(44565234,"azul",240,"en espera",time(13,50),"sin urgencia",time(15,30),4)
-	paciente3 = cPaciente(44565234,"azul",240,"en espera",time(13,50),"sin urgencia",time(15,30),4)
-	paciente4 = cPaciente(44565234,"azul",240,"en espera",time(13,50),"sin urgencia",time(15,30),4)
-	paciente5 = cPaciente(44565234,"azul",240,"en espera",time(13,50),"sin urgencia",time(15,30),4)
-	paciente6 = cPaciente(44565234,"azul",240,"en espera",time(13,50),"sin urgencia",time(15,30),4)
+	paciente1 = cPaciente(1,time(8,50),"sin urgencia")
+	paciente2 = cPaciente(2,time(9,50),"sin urgencia")
+	paciente3 = cPaciente(3,time(20,50),"sin urgencia")
+	paciente4 = cPaciente(4,time(11,50),"sin urgencia")
+	paciente5 = cPaciente(5,time(12,50),"sin urgencia")
+	paciente6 = cPaciente(6,time(13,50),"sin urgencia")
 	lista = []
 	medico = cMedico(54523523)
 	medicos = [medico]
@@ -37,34 +32,31 @@ def test_alerta_paciente():
 	listader.append(paciente4)
 	listader.append(paciente5)
 	listader.append(paciente6)
-	expected_estado = "verde"
-	expected_hora = datetime.now()
+
+	expected_alerta = "azul"
+
 	controlar = cHospital("curitas","vicente fidel lopez 654", lista,medicos,enfermeros)
+
 	controlar.controlar_tiempo_de_espera( listaizq, listader)
-	assert lista[0].estado == expected_estado
-	assert lista[0].hora_de_llegada == expected_hora
+
+	assert lista[0].alerta == expected_alerta
 
 
-	expected_estado = "amarillo"
-	expected_hora = datetime.now()
+	expected_estado = "azul"
 	
 	controlar.controlar_tiempo_de_espera( listaizq, listader)
-	assert lista[1].estado == expected_estado
-	assert lista[1].hora_de_llegada == expected_hora
+
+	assert lista[1].alerta == expected_estado
 
 
-	expected_estado = "naranja"
-	expected_hora = datetime.now()
+	expected_estado = "azul"
 	
 	controlar.controlar_tiempo_de_espera( listaizq, listader)
-	assert lista[2].estado == expected_estado
-	assert lista[2].hora_de_llegada == expected_hora
+	assert lista[2].alerta == expected_estado
 
 
-	expected_estado = "rojo"
-	expected_hora = datetime.now()
+	expected_estado = "azul"
 	
 	controlar.controlar_tiempo_de_espera( listaizq, listader)
-	assert lista[3].estado == expected_estado
-	assert lista[3].hora_de_llegada == expected_hora
-"""
+	assert lista[3].alerta == expected_estado
+

@@ -114,9 +114,9 @@ class cHospital:
 		for i in range (len(lista)):
 			hora = lista[i].hora_de_llegada.hour
 			minuto = lista[i].hora_de_llegada.minute
-			segundo = lista[i].hora_de_llegada.second
+			# segundo = lista[i].hora_de_llegada.second
 
-			aux_lista = datetime.time(hora,minuto,segundo)
+			aux_lista = datetime.time(hora,minuto)
 			lista[i].hora_de_llegada = datetime.combine(horaActual, aux_lista)
 			aux = horaActual - lista[i].hora_de_llegada
 			
