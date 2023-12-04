@@ -1,6 +1,6 @@
-from Paciente import cPaciente
-from Enfermero import cEnfermero
-from Medico import cMedico
+from library.Paciente import cPaciente
+from library.Enfermero import cEnfermero
+from library.Medico import cMedico
 from datetime import datetime, time
 
 class cHospital:
@@ -12,47 +12,40 @@ class cHospital:
 		self.enfermeros = enfermeros
 
 
-	def ingreso_paciente(self, p: cPaciente) -> None:
+	def ingreso_paciente(self, p) -> None:
 		
 		enfermero = self.buscar_enfermero_libre()
-		self.pacientes.append(p)
 	
 		if enfermero != None:
 			if(p.sintoma == "politraumatismo"):
 				p.alerta = "roja"
-				p.numero = 0
-				p.triage = enfermero.DNI #atributo del paciente que guarda quien lo atendió					enfermero.atendiendo_paciente == True					p.hora_ingreso_a_sala_m = datetime.minute()
+				p.setNumero(0)
 
 			elif(p.sintoma == "coma" or p.sintoma == "convulsiones" or p.sintoma == "hemorragia" or p.sintoma == "isquemia"):
 				p.alerta = "naranja"
-				p.numero = 1
-				p.triage = enfermero.DNI
+				p.setNumero(1)
 				enfermero.atendiendo_paciente == True
-				p.hora_ingreso_a_sala_m = datetime.minute()
 
 			elif (p.sintoma == "cefalea" or p.sintoma == "paresia" or p.sintoma == "hipertension" or p.sintoma == "vertigo" or p.sintoma == "síncope" or p.sintoma == "urgencia_psiquiatrica"):
 				p.alerta = "amarillo"
-				p.numero = 2
-				p.triage = enfermero.DNI
+				p.setNumero(2)
 				enfermero.atendiendo_paciente == True
-				p.hora_ingreso_a_sala_m = datetime.minute()
 
 			elif (p.sintoma == "otalgia" or p.sintoma == "odontalgia" or p.sintoma == "inespecifico" or  p.sintoma == "traumatismo" or p.sintoma == "esguince" ):
 				p.alerta = "verde"
-				p.numero = 3
-				p.triage = enfermero.DNI
+				p.setNumero(3)
 				enfermero.atendiendo_paciente == True
-				p.hora_ingreso_a_sala_m = datetime.minute()
 
 			elif (p.sintoma == "sin_urgencia"):
 				p.alerta = "azul"
-				p.numero = 4
-				p.triage = enfermero.DNI   
+				p.setNumero(4)
 				enfermero.atendiendo_paciente == True
-				p.hora_ingreso_a_sala_m = datetime.minute()
 			
 			else:
 				cMedico.medico_recibe_paciente(p,self.pacientes)
+		self.pacientes.append(p)
+		return p
+
 
 	def liberar_enfermero(p: cPaciente) ->  None: #seria liberar la sala  
 		minutos = datetime.minute()
@@ -76,9 +69,9 @@ class cHospital:
 		izquierda = pacientes.DandC(izquierda)
 
 		# Combina las dos mitades ordenadas en un solo array ordenado.
-		return pacientes.merge(izquierda, derecha)
+		return cHospital.merge(izquierda, derecha)
 	
-	def merge(self,izquierda, derecha):#Recibe las dos mitades ordenadas (izquierda y derecha) como parámetros. 
+	def merge(izquierda, derecha):#Recibe las dos mitades ordenadas (izquierda y derecha) como parámetros. 
 		lista_resultante = []		#La función crea una lista vacía llamada "lista_resultante" para almacenar los elementos ordenados.
 		
 		posicion_izq = 0		
@@ -105,43 +98,47 @@ class cHospital:
 			else:
 				return None
 
-	def controlar_tiempo_de_espera(self, izquierda, derecha) -> None:
-		horaActual = datetime.now().time()
-		lista = self.merge(izquierda,derecha)
+	def adelantar10Min(self):
+		for i in self.pacientes():
+			i.setEsperado10Min()
 
-		horaActual = datetime.combine(datetime.today(), horaActual)
-
-		for i in range (len(lista)):
-			hora = lista[i].hora_de_llegada.hour
-			minuto = lista[i].hora_de_llegada.minute
-			# segundo = lista[i].hora_de_llegada.second
-
-			aux_lista = datetime.time(hora,minuto)
-			lista[i].hora_de_llegada = datetime.combine(horaActual, aux_lista)
-			aux = horaActual - lista[i].hora_de_llegada
+#cada vez que invoco esta funcion se chequean los tiempos de todos los pacientes
+#y cada vez que se termine de ejecutar el for avanza 10min el programa
+	def controlar_tiempo_de_espera(self, izquierda, derecha) -> None: 
+		self.pacientes = self.merge(izquierda,derecha)
+		for i in range (len(self.pacientes)):
 			
-			totalMin = aux.total_seconds() / 60
-			if(lista[i].alerta == "azul"):
-				if(totalMin >= 120):
-					lista[i].set_alerta("verde")
-					lista[i].set_hora_de_llegada(horaActual)			
-				
-			if(lista[i].alerta == "verde"):
-				if(totalMin >= 60):
-					lista[i].set_alerta("amarillo") 
-					lista[i].set_hora_de_llegada(horaActual)
+			if(self.pacientes[i].alerta == "azul"):
+				if(self.pacientes[i].getEspera() >= datetime.timedelta(minutes=120)):
+					self.pacientes[i].set_alerta("verde")			
+			if(self.pacientes[i].alerta == "verde"):
+				if(self.pacientes[i].getEspera() >= datetime.timedelta(minutes=60)):
+					self.pacientes[i].set_alerta("amarillo") 
+			if(self.pacientes[i].alerta == "amarillo"):
+				if(self.pacientes[i].getEspera() >= datetime.timedelta(minutes=50)):
+					self.pacientes[i].set_alerta("naranja")
+			if(self.pacientes[i].alerta == "naranja"):
+				if(self.pacientes[i].getEspera() >= datetime.timedelta(minutes=10)):
+					self.pacientes[i].set_alerta("rojo")
+		self.adelantar10Min()
 
-			if(lista[i].alerta == "amarillo"):
-				if(totalMin >= 50):
-					lista[i].set_alerta("naranja")
-					lista[i].set_hora_de_llegada(horaActual)
-				
-			if(lista[i].alerta == "naranja"):
-				if(totalMin >= 10):
-					lista[i].set_alerta("rojo")
-					lista[i].set_hora_de_llegada(horaActual)
+	def getPacientesString(self):
+		lista = []
+		aux = ""
+		for i in self.pacientes:
+			aux = i.DNI + " " + i.sintoma
+			lista.append(aux)
+		return lista
 
-	def suma_numeros(a,b) : #metodo de prueba
-		suma = a + b
-		return suma
-	
+	def getMedicosString(self):
+		lista = []
+		aux = ""
+		for i in self.medicos:
+			aux = i.matricula + " " 
+			lista.append(aux)
+			return lista
+
+	def imprimir(self):
+				for i in self.pacientes:
+					print(i.dni, i.espera, i.sintoma)
+					print("\n")

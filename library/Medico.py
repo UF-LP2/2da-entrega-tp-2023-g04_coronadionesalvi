@@ -1,4 +1,4 @@
-from Paciente import cPaciente              
+from library.Paciente import cPaciente              
 from datetime import datetime
 
 class cMedico:
