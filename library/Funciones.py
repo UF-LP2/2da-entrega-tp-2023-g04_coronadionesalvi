@@ -5,11 +5,11 @@ from library.Paciente import cPaciente
 from library.Medico import cMedico
 from library.Enfermero import cEnfermero
 
-def cargarPacientesCSV(archivo):
+def cargarPacientesCSV(archivo: string):
 	listaPacientes = []
 
 	with open(archivo, mode="r") as file:
-		fp = csv.DictReader(file)
+		fp = csv.DictReader(file) #dictreader es para recorrer el archivo en columnas 
 		for i in fp:
 			auxPac = cPaciente(i["DNI"], i["sintoma"])
 

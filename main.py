@@ -14,7 +14,7 @@ def cargarPacientesCSV(archivo): #nombre del archivo como string
 		fp = csv.DictReader(file)					#leo el archivo por columna
 		for i in fp:
 
-			auxPac = cPaciente(i["DNI"],i["espera"], i["sintoma"])	# i mueve por fila, y se lee por columna 
+			auxPac = cPaciente(i["DNI"], i["sintoma"])	# i mueve por fila, y se lee por columna 
 
 			listaPacientes.append(auxPac)
 
