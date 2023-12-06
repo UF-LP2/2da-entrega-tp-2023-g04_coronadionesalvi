@@ -98,7 +98,7 @@ class cHospital:
 			else:
 				return None
 
-	def adelantar10Min(self):
+	def adelantar10Min(self):				#Cuando se llama se actualizan los tiempos de espera de los pacientes 
 		for i in self.pacientes():
 			i.setEsperado10Min()
 

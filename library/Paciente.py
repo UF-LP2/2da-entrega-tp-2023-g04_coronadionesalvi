@@ -4,7 +4,7 @@ class cPaciente:
 	def __init__(self, DNI, sintoma):
 		self.DNI = DNI
 		self.alerta = None
-		self.espera = datetime.timedelta(minutes = 0)
+		self.espera = datetime.timedelta(minutes = 0)		# arranca en 0
 		self.sintoma = sintoma
 		self.hora_ingreso_a_sala_m = None
 		self.numero = None
