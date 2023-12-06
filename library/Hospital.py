@@ -126,7 +126,7 @@ class cHospital:
 		lista = []
 		aux = ""
 		for i in self.pacientes:
-			aux = i.DNI + " " + i.sintoma
+			aux = i.DNI + " " + i.sintoma + " " + str(i.espera)
 			lista.append(aux)
 		return lista
 
@@ -136,7 +136,7 @@ class cHospital:
 		for i in self.medicos:
 			aux = i.matricula + " " 
 			lista.append(aux)
-			return lista
+		return lista
 
 	def imprimir(self):
 				for i in self.pacientes:
